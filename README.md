@@ -1,11 +1,15 @@
 ```python
+# ----------------------------------------------------------------------
+# 1. IMPORTAÇÃO DAS BIBLIOTÉCAS NECESSÁRIAS
+# ----------------------------------------------------------------------
+
 import os
 import googlemaps
 import pandas as pd
 import numpy as np # Adicionado para uso em um DataFrame de exemplo
 
 # ----------------------------------------------------------------------
-# 1. CONFIGURAÇÃO DO CLIENTE GOOGLE MAPS
+# 2. CONFIGURAÇÃO DO CLIENTE GOOGLE MAPS
 # ----------------------------------------------------------------------
 
 # A chave deve ser definida como uma variável de ambiente (ex: export CHAVE_API_GOOGLE="SUA_CHAVE")
@@ -25,7 +29,7 @@ except Exception as e:
     gmaps = None
 
 # ----------------------------------------------------------------------
-# 2. FUNÇÃO DE GEOCODIFICAÇÃO
+# 3. FUNÇÃO DE GEOCODIFICAÇÃO
 # ----------------------------------------------------------------------
 
 def get_coordenadas_google(query_completa):
@@ -65,7 +69,7 @@ def get_coordenadas_google(query_completa):
         return pd.Series([None, None])
 
 # ----------------------------------------------------------------------
-# 3. EXEMPLO DE APLICAÇÃO EM DATAFRAME
+# 4. EXEMPLO DE APLICAÇÃO EM DATAFRAME
 # ----------------------------------------------------------------------
 
 if __name__ == '__main__':
