@@ -8,10 +8,10 @@ except Exception as e:
     print(f"Erro ao iniciar o cliente Google Maps: {e}")
     gmaps = None
 
-def get_coordenadas_google(query_completa):
+def get_coordenadas_google(ENDERECO):
     if gmaps is None: return pd.Series([None, None])
     try:
-        geocode_result = gmaps.geocode(query_completa)
+        geocode_result = gmaps.geocode(ENDERECO)
         if geocode_result:
             lat = geocode_result[0]['geometry']['location']['lat']
             lon = geocode_result[0]['geometry']['location']['lng']
@@ -19,11 +19,10 @@ def get_coordenadas_google(query_completa):
         else:
             return pd.Series([None, None]) 
     except Exception as e:
-        print(f"Erro na API: {e} | Query: {query_completa}")
+        print(f"Erro na API: {e} | Query: {ENDERECO}")
         return pd.Series([None, None])
-# -------------------------------------------------
 
-df[["latitude", "longitude"]] = df['ENDERECO_FULL'].apply(get_coordenadas_google)
+df[["latitude", "longitude"]] = df['ENDERECO'].apply(get_coordenadas_google)
 
 df_coord = df
 ```
