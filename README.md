@@ -26,6 +26,23 @@ O código é tecnicamente versátil, sendo aplicável a qualquer setor que traba
 
 ---
 
+### Configuração da Chave API
+
+Por questões de segurança, é interessante que a chave API seja lida de uma `Variável Ambiente`
+
+```bash
+# Linux/macOS
+export CHAVE_API_GEOCODING_GoogleMaps = "Insira sua chave aqui"
+
+# Windows (PowerShell)
+$env:CHAVE_API_GEOCODING_GoogleMaps = "Insira sua chave aqui"
+```
+
+---
+
+### Código Python
+
+1. Importação das bibliotecas necessárias
 ```python
 # ----------------------------------------------------------------------
 # 1. IMPORTAÇÃO DAS BIBLIOTÉCAS NECESSÁRIAS
@@ -36,13 +53,14 @@ import googlemaps
 import pandas as pd
 ```
 
+2. Inicialização do client e tratamento em caso de erro
 ```python
 # ----------------------------------------------------------------------
 # 2. CONFIGURAÇÃO DO CLIENTE GOOGLE MAPS
 # ----------------------------------------------------------------------
 
 # A chave deve ser definida como uma variável de ambiente (ex: export CHAVE_API_GOOGLE="SUA_CHAVE")
-CHAVE_API_GOOGLE = os.environ.get("CHAVE_API_GOOGLE") 
+CHAVE_API_GEOCODING_GoogleMaps = os.environ.get("CHAVE_API_GEOCODING_GoogleMaps") 
 gmaps = None
 
 try:
@@ -58,12 +76,14 @@ except Exception as e:
     gmaps = None
 ```
 
+3. Função `get_coordenadas_google`
+- A funçao utiliza `try/except` para garantir que o código não crash em falhas da API
 ```python
 # ----------------------------------------------------------------------
 # 3. FUNÇÃO DE GEOCODIFICAÇÃO
 # ----------------------------------------------------------------------
 
-def get_coordenadas_google(query_completa):
+def get_coordenadas_google(query):
     """
     Converte um endereço de texto em coordenadas geográficas (Lat/Lon) usando 
     a API do Google Maps.
@@ -82,7 +102,7 @@ def get_coordenadas_google(query_completa):
         
     try:
         # Realiza a chamada à API
-        geocode_result = gmaps.geocode(query_completa)
+        geocode_result = gmaps.geocode(query)
         
         if geocode_result:
             # Extrai as coordenadas do primeiro resultado
@@ -91,18 +111,53 @@ def get_coordenadas_google(query_completa):
             return pd.Series([lat, lon])
         else:
             # Retorna None se a API não encontrar o endereço
-            print(f"AVISO: Endereço não encontrado pela API. Query: {query_completa}")
+            print(f"AVISO: Endereço não encontrado pela API. Consulta: {query}")
             return pd.Series([None, None]) 
             
     except Exception as e:
         # Trata erros inesperados da API (limite de uso, rede, etc.)
-        print(f"ERRO na API: {e} | Query: {query_completa}")
+        print(f"ERRO na API: {e} | Consulta: {query}")
         return pd.Series([None, None])
 ```
 
+4. Exemplo de aplicação em DataFrame
 ```python
-# Assume-se que 'df' é um DataFrame do Pandas carregado com a coluna de texto a ser geocodificada.
-df[["latitude", "longitude"]] = df['ENDERECO_FULL'].apply(get_coordenadas_google)
-
-df_coord = df
+# Considerando que 'df' é um DataFrame carregado com a coluna de texto a ser geocodificada.
+df[["latitude", "longitude"]] = df['ENDERECO'].apply(get_coordenadas_google)
 ```
+
+---
+
+### Aplicações e versatilidade
+O motor de geocodificação construído pode ser aplicado em diversos setores que necessitem de análise espacial de grandes volumes de dados, por exemplo:
+- AgTech (Agricultura e Tecnologia):
+  - Integração de pontos geocodificados com dados de sensor ou mapas de colheita para análises de geoprocessamento;
+  - Mapeamento de fornecedores e rotas para otimizar a distribuição e aplicação de fertilizantes e defensivos;
+  - Criação de shapefiles e camadas vetoriais para modelagem de dados territoriais.
+- Business Intelligence (BI):
+  - Mapeamento de clientes e fornecedores para otimizar logística, distribuição e análise de mercado;
+  - Criação de indicadores de desempenho (KPIs) baseados em localização geográfica.
+- Análise Urbana e Geomarketing:
+  - Conversão de endereços para planejamento urbano, definição de zonas de serviço e análise de geomarketing.
+
+---
+
+## Conecte-se Comigo
+
+*Siga os links abaixo para saber mais sobre minha trajetória profissional e me contatar:*
+
+<div> 
+  <a href="mailto:miguel.gms31@gmail.com"><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a>
+  <a href="https://www.linkedin.com/in/miguelgms31/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
+  <a href="http://lattes.cnpq.br/2943203054995050" target="_blank"><img src="https://img.shields.io/badge/-Lattes-%230077B5?style=for-the-badge&logo=google-scholar&logoColor=white" target="_blank"></a>
+</div>
+
+## Próximos Passos e Contribuições
+
+Este projeto pode ser expandido com as seguintes funcionalidades:
+
+* Implementação de rotinas de validação de endereços antes da geocodificação.
+* Adição de suporte para outras APIs de geocodificação (como HERE ou OpenCage).
+* Criação de um *wrapper* para processamento assíncrono (otimizando a velocidade do *batch geocoding*).
+
+Sinta-se à vontade para propor melhorias, abrir *issues* ou enviar *pull requests*!
