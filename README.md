@@ -1,4 +1,4 @@
-# Automatização de Geocodificação: Pandas & Google Maps
+# Batch Geocoding: Pandas & Google Maps
 
 ---
 
