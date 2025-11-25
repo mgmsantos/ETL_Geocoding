@@ -152,6 +152,8 @@ O motor de geocodificação construído pode ser aplicado em diversos setores qu
   <a href="http://lattes.cnpq.br/2943203054995050" target="_blank"><img src="https://img.shields.io/badge/-Lattes-%230077B5?style=for-the-badge&logo=google-scholar&logoColor=white" target="_blank"></a>
 </div>
 
+---
+
 ## Próximos Passos e Contribuições
 
 Este projeto pode ser expandido com as seguintes funcionalidades:
@@ -161,3 +163,5 @@ Este projeto pode ser expandido com as seguintes funcionalidades:
 * Criação de um *wrapper* para processamento assíncrono (otimizando a velocidade do *batch geocoding*).
 
 Sinta-se à vontade para propor melhorias, abrir *issues* ou enviar *pull requests*!
+
+---
