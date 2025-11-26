@@ -174,6 +174,9 @@ def gerar_mapa_teste(df, archive = "mapa.png"):
     ax.set_axis_off()
     ax.set_title("Mapa Teste")
     plt.tight_layout()
-    plt.savefig(archive, dpi = 400)
+    plt.savefig(archive,
+                dpi = 400,
+                bbox_inches = 'tight',
+                pad_inches = 0.1)
 
 gerar_mapa_teste(df_teste, "mapa_teste")
