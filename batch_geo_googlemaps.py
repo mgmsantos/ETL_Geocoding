@@ -115,9 +115,8 @@ df_teste = pd.DataFrame(data)
 # Considerando que 'df' é um DataFrame carregado com a coluna de texto a ser geocodificada.
 df_teste[["latitude", "longitude"]] = df_teste['ENDERECO'].apply(get_coordenadas_google)
 
-
 # %%
-df_teste.head(10)
-geobatch_cache
 
-# %%
+# Exibe o DataFrame resultante e o conteúdo do cache
+print(df_teste)
+print(geobatch_cache)
