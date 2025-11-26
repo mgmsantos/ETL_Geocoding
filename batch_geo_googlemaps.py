@@ -134,7 +134,7 @@ CRS_WEBMERCARTOR = "EPSG:3857"
 
 def gerar_mapa_teste(df, archive = "mapa.png"):
     """
-    Gera um mapa estático geográfico utilizando Matplotlib, GeoPandas e Contextily.
+    Gera um mapa cartográfico utilizando Matplotlib, GeoPandas e Contextily.
     
     A função reprojeta os pontos de latitude/longitude (EPSG:4326) para o sistema 
     Web Mercator (EPSG:3857), que é compatível com o mapa base do OpenStreetMap, 
