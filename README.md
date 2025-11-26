@@ -163,6 +163,8 @@ print(geobatch_cache)
 
 ![Mapa de localização dos pontos geocodificados](/mapa_teste.png)
 
+<img src="/mapa_teste.png" alt="Mapa de localização dos pontos geocodificados" width="350"/>
+
 ---
 
 ### Aplicações e versatilidade
