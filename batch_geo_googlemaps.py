@@ -118,5 +118,62 @@ df_teste[["latitude", "longitude"]] = df_teste['ENDERECO'].apply(get_coordenadas
 # %%
 
 # Exibe o DataFrame resultante e o conteúdo do cache
-print(df_teste)
-print(geobatch_cache)
+df_teste
+
+# %%
+# ----------------------------------------------------------------------
+# 5. GERANDO UM MAPA TESTE
+# ----------------------------------------------------------------------
+
+import matplotlib.pyplot as plt
+import contextily as ctx
+import geopandas as gpd
+from shapely.geometry import Point
+
+CRS_WEBMERCARTOR = "EPSG:3857"
+
+def gerar_mapa_teste(df, archive = "mapa.png"):
+    """
+    Gera um mapa estático geográfico utilizando Matplotlib, GeoPandas e Contextily.
+    
+    A função reprojeta os pontos de latitude/longitude (EPSG:4326) para o sistema 
+    Web Mercator (EPSG:3857), que é compatível com o mapa base do OpenStreetMap, 
+    e salva o resultado como um arquivo de imagem.
+
+    Args:
+        df (pd.DataFrame): O DataFrame de entrada, que deve conter as colunas 
+                           'latitude' e 'longitude' com as coordenadas geocodificadas.
+        archive (str, optional): O nome do arquivo onde o mapa será salvo. 
+                                 Deve ser uma extensão de imagem válida (ex: .png, .jpg).
+                                 Padrão é "mapa.png".
+                                 
+    Returns:
+        None: A função salva o mapa como um arquivo e não retorna nenhum objeto.
+    """
+    df = df.dropna(subset=['latitude', 'longitude']).drop_duplicates(subset=['latitude', 'longitude'])
+    if df.empty:
+        print("Não há coordenadas para geraro mapa")
+        return
+    
+    gdf = gpd.GeoDataFrame(
+        df,
+        geometry = [Point(xy) for xy in zip(df['longitude'], df['latitude'])],
+        crs = "EPSG:4326"
+    )
+
+    gdf_web = gdf.to_crs(CRS_WEBMERCARTOR)
+
+    fig, ax = plt.subplots(figsize = (5, 5,))
+    gdf_web.plot(ax = ax, color = 'red', markersize = 40, edgecolor = 'black', linewidth = 1)
+
+    try:
+        ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
+    except Exception as e:
+        print(f"⚠️ Erro ao adicionar Contextily: {e}")
+    
+    ax.set_axis_off()
+    ax.set_title("Mapa Teste")
+    plt.tight_layout()
+    plt.savefig(archive, dpi = 400)
+
+gerar_mapa_teste(df_teste, "mapa_teste")
