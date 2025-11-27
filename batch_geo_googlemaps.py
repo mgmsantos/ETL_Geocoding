@@ -18,7 +18,7 @@ CHAVE_API_GOOGLE = "DIGITES SUA API AQUI"
 
 try:
     if CHAVE_API_GOOGLE:
-        gmaps = googlemaps.Client(key = CHAVE_API_GOOGLE)
+        gmaps = googlemaps.Client(key = "CHAVE_API_GOOGLE")
         print("Cliente Google Maps inicializado com sucesso.")
 except Exception as e:
     print(f"Erro ao iniciar o cliente Google Maps: {e}")
