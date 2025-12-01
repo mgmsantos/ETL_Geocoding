@@ -201,4 +201,5 @@ Este projeto pode ser expandido com as seguintes funcionalidades:
 * Criação de um *wrapper* para processamento assíncrono (otimizando a velocidade do *batch geocoding*).
 
 Sinta-se à vontade para *favoritar* esse repositório com uma estrela e promor melhorias, abrir *issues* ou enviar *pull requests*!
+
 ---
